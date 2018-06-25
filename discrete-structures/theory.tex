@@ -1,0 +1,63 @@
+\documentclass[12pt]{article}
+
+    \usepackage{amsmath}
+    \usepackage{amsfonts}
+    \usepackage[utf8]{inputenc}
+    \usepackage[bulgarian]{babel}
+
+
+    \title{Дискретни структури, Теория}
+    \author{Георги Петков Петков}
+    \date{}
+
+    \begin{document}
+    \maketitle
+    \section*{Тема 1}
+    \subsection*{Свойства на логическите съюзи}
+    Свойство на константите:
+    \begin{gather*}
+        p \land T \equiv p \\
+        p \lor T \equiv T \\
+        p \land F \equiv F \\
+        p \lor F \equiv p \\
+    \end{gather*}
+    Закон на двойното отрицавие: \( \neg(\neg p) \equiv p \) \\ \\
+    Комутативност: 
+    \begin{gather*}
+        p \land q \equiv q \land p \\
+        p \lor q \equiv q \lor p \\
+        p \leftrightarrow q \equiv q \leftrightarrow p \\
+        p \oplus q \equiv q \oplus p \\
+    \end{gather*}
+    Асоциативност:
+    \begin{gather*}
+        (p \land q) \land r \equiv p \land (q \land r) \equiv p \land q \land r \\
+        (p \lor q) \lor r \equiv p \lor (q \lor r) \equiv p \lor q \lor r \\
+    \end{gather*}
+    Дистрибутивност:
+    \begin{gather*}
+        p \land (q \lor r) \equiv (p \land q) \lor (p \land r) \\
+        p \lor (q \land r) \equiv (p \lor q) \land (p \lor r) \\ 
+    \end{gather*}
+    Де Морган:
+    \begin{gather*}
+        \neg (p \land q) \equiv \neg p \lor \neg q \\
+        \neg (p \lor q) \equiv \neg p \land \neg q \\
+    \end{gather*}
+    Свойство на импликацията: \( p \to q \equiv \neg p \lor q \) \\ \\
+    Свойство на би-импликацията: \( p \leftrightarrow q \equiv ( p \to q ) \land ( q \to p ) \) \\ \\
+    Иденпотентност:
+    \begin{gather*}
+        p \land p \equiv p \\
+        p \lor p \equiv p 
+    \end{gather*}
+
+    \subsection*{Предикатна логика}
+    \( n \in \mathbb{N}, A = \{ a_1, a_2, \dots a_n \} \) - домейн, универсален квантор (\( \forall \)), екзистенциален квантор (\( \exists \)) \\
+    \begin{gather*}
+        \forall x P(x) \equiv \land^{i=1}_{n} P(a_i) \\
+        \exists x P(x) \equiv \lor^{i=1}_{n} P(a_i) \\
+        \neg \forall x P(x) \equiv \exists x \neg P(x) \\
+        \neg \exists x P(x) \equiv \forall x \neg P(x)
+    \end{gather*}
+    \end{document}

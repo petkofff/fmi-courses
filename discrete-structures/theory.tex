@@ -13,6 +13,14 @@
     \begin{document}
     \maketitle
     \section{Логика}
+    \subsection*{Приоритет на операциите}
+    \begin{enumerate}
+        \item Негация ($ \neg $)
+        \item Конюнкция ($ \land $)
+        \item Дизюнкция ($ \lor, \oplus $)
+        \item Импликация ($ \rightarrow $)
+        \item Би-импликация ($ \leftrightarrow $)
+    \end{enumerate}
     \subsection*{Свойства на логическите съюзи}
     Свойство на константите:
     \begin{gather*}
@@ -63,7 +71,7 @@
     \section{Множества}
     \subsection*{Аксиоми:}
     Аксиома за обема: $ \forall a (a \in A \iff a \in B) \implies A=B $ \\
-    Аксиома за определянето: $ M'=\{ x \in M, \pi (x) \} $ \\
+    Аксиома за определянето: $ M'=\{x |  x \in M, \pi (x) \} $ \\
     Аксиома за степенното множество: $ 2^A = \{ B | B \subseteq A \} $
     \subsection*{Операции:}
     Обединение: $ A \cup B = \{ x | x \in A \lor x \in B \} $ \\
@@ -71,4 +79,28 @@
     Разлика : $ A \setminus B = \{ x | x \in A \land x \notin B \} $ \\
     Симетрична разлика: $ A \triangle B = \{ x | (x \in A \land x \notin B) \lor (x \notin A \land x \in B) \} $
     Допълнение на $ A $: $ \overline{\rm A} = \{ x \notin A \land x \in \Omega \} $
+    \subsection*{Свойства на основните операции:}
+    Иденпотентност: 
+    \begin{gather*}
+        A \cup A = A \\
+        A \cap A = A
+    \end{gather*}
+    Комутативност:
+    \begin{gather*}
+        A \cup B = B \cup A \\
+        A \cap B = B \cap A \\
+        A \triangle B = B \triangle A
+    \end{gather*}
+    Асоциативност:
+    \begin{gather*}
+        A \cup (B \cup C) = (A \cup B) \cup C = A \cup B \cup C \\
+        A \cap (B \cap C) = (A \cap B) \cap C = A \cap B \cap C
+    \end{gather*}
+    Дистрибутивност:
+    \begin{gather*}
+        A \cup (B \cap C) = (A \cup B) \cap (A \cup C) \\
+        A \cap (B \cup C) = (A \cap B) \cup (A \cap C) 
+    \end{gather*}
+    Свойства на празното и универсаленото множество:
+    
     \end{document}

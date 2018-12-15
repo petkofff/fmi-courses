@@ -7,30 +7,33 @@ class DLL {
    private:
     struct Node {
         T data;
-        Node* next;
-        Node* prev;
+        Node *next;
+        Node *prev;
     };
 
-    Node* first;
-    Node* last;
+    Node *first;
+    Node *last;
 
    public:
     DLL();
-    DLL(const T& firstElement);
-    DLL(const DLL<T>& other);
+    DLL(const T &firstElement);
+    DLL(const DLL<T> &other);
     ~DLL();
 
     class Iterator;
 
     bool isEmpty() const;
-    void print(std::ostream& o) const;
+    void print(std::ostream &o) const;
 
-    const T& front() const;
-    const T& back() const;
+    const T &front() const;
+    const T &back() const;
 
-    bool append(const T& element);
-    void append(DLL& other);
-    void append(Iterator& iter);
+    T &front() { return first->data; }
+    T &back() { return last->data; }
+
+    bool append(const T &element);
+    void append(DLL &other);
+    void append(Iterator &iter);
 
     bool removeLast();
     bool removeFirst();
@@ -39,18 +42,18 @@ class DLL {
 
     operator bool() const;
 
-    DLL& operator=(DLL& other);
+    DLL &operator=(DLL &other);
 
     class Iterator {
        public:
-        Iterator(Node* first, Node* last) {
-            this->first = first;
-            this->current = first;
-            this->last = last;
-        }
+        Iterator(Node *first, Node *last, DLL *iterated)
+            : first(first), current(first), last(last), iterated(iterated) {}
 
-        Iterator(const Iterator& other)
-            : first(other.first), current(other.first), last(other.last) {}
+        Iterator(const Iterator &other)
+            : first(other.first),
+              current(other.first),
+              last(other.last),
+              iterated(other.iterated) {}
 
         bool atLast() const { return (current == last); }
 
@@ -62,6 +65,28 @@ class DLL {
 
         void setToLast() { this->current = this->last; }
 
+        bool removeElement() {
+            if (!this->current) {
+                return false;
+            }
+
+            if (atFirst()) {
+                iterated->removeFirst();
+            } else if (atLast()) {
+                iterated->removeLast();
+            } else {
+                Node *prev = this->current->prev;
+                Node *next = this->current->next;
+
+                prev->next = next;
+                next->prev = prev;
+
+                delete this->current;
+            }
+
+            return true;
+        }
+
         operator bool() const { return this->current; }
 
         const Iterator operator++(int) {
@@ -70,7 +95,7 @@ class DLL {
             return tmp;
         }
 
-        Iterator& operator++() {
+        Iterator &operator++() {
             if (this->current) {
                 this->current = this->current->next;
             }
@@ -83,24 +108,24 @@ class DLL {
             return tmp;
         }
 
-        Iterator& operator--() {
+        Iterator &operator--() {
             if (this->current) {
                 this->current = this->current->prev;
             }
             return *this;
         }
 
-        T& operator*() { return this->current->data; }
+        T &operator*() { return this->current->data; }
 
        private:
-        DLL* list;
-        Node* first;
-        Node* current;
-        Node* last;
+        Node *first;
+        Node *current;
+        Node *last;
+        DLL *iterated;
     };
 
-    Iterator intoIter() const {
-        Iterator iter(first, last);
+    Iterator intoIter() {
+        Iterator iter(first, last, this);
         return iter;
     }
 };
@@ -112,8 +137,8 @@ DLL<T>::DLL() {
 }
 
 template <class T>
-DLL<T>::DLL(const T& firstElement) {
-    Node* firstNode = new (std::nothrow) Node;
+DLL<T>::DLL(const T &firstElement) {
+    Node *firstNode = new (std::nothrow) Node;
     firstNode->data = firstElement;
     firstNode->next = nullptr;
     firstNode->prev = nullptr;
@@ -133,8 +158,8 @@ bool DLL<T>::isEmpty() const {
 }
 
 template <class T>
-bool DLL<T>::append(const T& element) {
-    Node* newNode = new (std::nothrow) Node;
+bool DLL<T>::append(const T &element) {
+    Node *newNode = new (std::nothrow) Node;
 
     if (!newNode) {
         return false;
@@ -159,7 +184,7 @@ bool DLL<T>::append(const T& element) {
 template <class T>
 bool DLL<T>::removeLast() {
     if (last) {
-        Node* lastNode = last;
+        Node *lastNode = last;
         last = last->prev;
         delete lastNode;
         return true;
@@ -171,7 +196,7 @@ bool DLL<T>::removeLast() {
 template <class T>
 bool DLL<T>::removeFirst() {
     if (first) {
-        Node* firstNode = first;
+        Node *firstNode = first;
         first = first->next;
         delete firstNode;
         return true;
@@ -181,17 +206,17 @@ bool DLL<T>::removeFirst() {
 }
 
 template <class T>
-const T& DLL<T>::front() const {
+const T &DLL<T>::front() const {
     return first->data;
 }
 
 template <class T>
-const T& DLL<T>::back() const {
+const T &DLL<T>::back() const {
     return last->data;
 }
 
 template <class T>
-void DLL<T>::print(std::ostream& o) const {
+void DLL<T>::print(std::ostream &o) const {
     if (!this->first || !this->last) {
         return;
     }
@@ -207,7 +232,7 @@ void DLL<T>::print(std::ostream& o) const {
 }
 
 template <class T>
-void DLL<T>::append(DLL& other) {
+void DLL<T>::append(DLL &other) {
     this->last->next = other.first;
     other.first->prev = this->first;
     this->last = other.last;
@@ -217,7 +242,7 @@ void DLL<T>::append(DLL& other) {
 }
 
 template <class T>
-void DLL<T>::append(Iterator& iter) {
+void DLL<T>::append(Iterator &iter) {
     while (iter) {
         append(*iter);
         ++iter;
@@ -230,7 +255,7 @@ DLL<T>::operator bool() const {
 }
 
 template <class T>
-DLL<T>& DLL<T>::operator=(DLL& other) {
+DLL<T> &DLL<T>::operator=(DLL &other) {
     this->empty();
 
     this->first = other.first;
@@ -244,7 +269,7 @@ DLL<T>& DLL<T>::operator=(DLL& other) {
 
 template <class T>
 void DLL<T>::empty() {
-    Node* toDelete = this->first;
+    Node *toDelete = this->first;
 
     while (toDelete) {
         this->first = this->first->next;
